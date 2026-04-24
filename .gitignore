@@ -1,0 +1,5 @@
+/target/
+/.idea/
+/.tmp-techstars.html
+/.tmp-job.html
+*.iml

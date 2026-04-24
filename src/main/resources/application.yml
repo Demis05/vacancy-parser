@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: vacancy-parser
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/vacancy_parser}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  main:
+    banner-mode: off
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+logging:
+  level:
+    com.example.vacancyparser: INFO
+
+techstars:
+  base-url: https://jobs.techstars.com
+  jobs-path: /jobs
+  http:
+    timeout-millis: 30000
+    detail-delay-millis: 150
+    detail-thread-count: 4
+    user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
