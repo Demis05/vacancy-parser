@@ -17,7 +17,7 @@ public class ImportApplicationService {
                 result.retrieved(),
                 result.created(),
                 result.updated(),
-                result.deactivated()
+                result.removed()
         );
     }
 }

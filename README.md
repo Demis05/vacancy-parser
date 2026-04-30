@@ -10,7 +10,7 @@ The application:
 - stores data in PostgreSQL using JPA/Hibernate
 - updates existing vacancies by external id due import process
 - creates new vacancies
-- marks vacancies as `INACTIVE` when they are no longer present on the source site
+- removes vacancies that are no longer present on the source site
 - provides REST endpoints for manual import and vacancy retrieval
 
 ## Main features
@@ -18,6 +18,7 @@ The application:
 - manual import trigger via API
 - get vacancy by id
 - get all vacancies with pagination
+- return main vacancy information including description in list and details responses
 - optional filtering by `company`, `location`, and `tag`
 
 ## Tech stack
@@ -49,7 +50,7 @@ The application:
 
 - The parser uses embedded `__NEXT_DATA__` JSON from Techstars pages instead of a browser UI.
 - The API reads vacancies from the local database and does not depend on live parsing during `GET` requests.
-- Missing vacancies are marked as `INACTIVE` instead of being physically deleted.
+- Missing vacancies are physically deleted from the local database during synchronization.
 
 ## Local database with Docker
 

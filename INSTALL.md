@@ -82,7 +82,7 @@ Expected response example:
   "retrieved": 20,
   "created": 20,
   "updated": 0,
-  "deactivated": 0
+  "removed": 0
 }
 ```
 

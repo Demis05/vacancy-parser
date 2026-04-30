@@ -10,6 +10,7 @@ public record VacancySummary(
         String title,
         String companyName,
         String location,
+        String description,
         String jobUrl,
         Set<String> tags,
         String workMode,

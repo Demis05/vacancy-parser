@@ -4,6 +4,6 @@ public record ImportResult(
         int retrieved,
         int created,
         int updated,
-        int deactivated
+        int removed
 ) {
 }

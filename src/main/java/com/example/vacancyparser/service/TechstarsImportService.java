@@ -39,8 +39,8 @@ public class TechstarsImportService {
         Map<Long, String> jobDescriptionsById = fetchJobDescriptionsInParallel(jobs);
         Set<Long> importedJobIds = new HashSet<>();
         ImportCounters counters = saveOrUpdateVacancies(jobs, jobDescriptionsById, importedJobIds);
-        int deactivatedCount = deactivateMissingJobs(importedJobIds);
-        ImportResult result = buildImportResult(jobs.size(), counters, deactivatedCount);
+        int removedCount = removeMissingJobs(importedJobIds);
+        ImportResult result = buildImportResult(jobs.size(), counters, removedCount);
         logImportResult(result);
         return result;
     }
@@ -121,25 +121,22 @@ public class TechstarsImportService {
         buildSummary(vacancy, summary, Instant.now());
     }
 
-    private int deactivateMissingJobs(Set<Long> importedJobIds) {
+    private int removeMissingJobs(Set<Long> importedJobIds) {
         List<Vacancy> activeVacancies = vacancyRepository.findAllByStatusAndExternalIdNotIn(VacancyStatus.ACTIVE, importedJobIds);
-        for (Vacancy vacancy : activeVacancies) {
-            vacancy.setStatus(VacancyStatus.INACTIVE);
-        }
-        vacancyRepository.saveAll(activeVacancies);
+        vacancyRepository.deleteAll(activeVacancies);
         return activeVacancies.size();
     }
 
-    private ImportResult buildImportResult(int retrievedCount, ImportCounters counters, int deactivatedCount) {
-        return new ImportResult(retrievedCount, counters.createdCount(), counters.updatedCount(), deactivatedCount);
+    private ImportResult buildImportResult(int retrievedCount, ImportCounters counters, int removedCount) {
+        return new ImportResult(retrievedCount, counters.createdCount(), counters.updatedCount(), removedCount);
     }
 
     private void logImportResult(ImportResult result) {
-        log.info("Techstars import finished. retrieved={}, created={}, updated={}, deactivated={}",
+        log.info("Techstars import finished. retrieved={}, created={}, updated={}, removed={}",
                 result.retrieved(),
                 result.created(),
                 result.updated(),
-                result.deactivated()
+                result.removed()
         );
     }
 
